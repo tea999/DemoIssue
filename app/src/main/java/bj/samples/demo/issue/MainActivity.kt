@@ -23,4 +23,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        with(binding) {
+            original.setOnClickListener {
+                test.text = input.text
+            }
+
+            fixed.setOnClickListener {
+                test2.text = input.text
+            }
+        }
+    }
+
 }

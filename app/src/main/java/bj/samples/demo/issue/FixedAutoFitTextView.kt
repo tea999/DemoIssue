@@ -59,7 +59,6 @@ class FixedAutoFitTextView @JvmOverloads constructor(context: Context, attrs: At
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
             override fun onTestSize(suggestedSize: Int, availableSpace: RectF): Int {
                 textPaint!!.textSize = suggestedSize.toFloat()
-                Log.d("state","$suggestedSize")
                 val transformationMethod = transformationMethod
                 val text: String
                 if (transformationMethod != null)
@@ -80,11 +79,9 @@ class FixedAutoFitTextView @JvmOverloads constructor(context: Context, attrs: At
                     textRect.bottom = layout.height.toFloat()
                     var maxWidth = -1
                     val lineCount = layout.lineCount
-                    Log.d("state","line:$lineCount")
                     val w = layout.getLineWidth(0)
                     for (i in 0 until lineCount) {
                         val end = layout.getLineEnd(i)
-                        Log.d("state","width:$w,end:$end,text end:${text.length}")
                         if (i < lineCount - 1 && end > 0 && !isValidWordWrap(text[end - 1]))
                             return 1
                         if (maxWidth < layout.getLineRight(i) - layout.getLineLeft(i))
@@ -209,7 +206,6 @@ class FixedAutoFitTextView @JvmOverloads constructor(context: Context, attrs: At
     }
 
     private fun binarySearch(start: Int, end: Int, sizeTester: SizeTester, availableSpace: RectF): Int {
-        Log.d("state","rect:$availableSpace")
         var lastBest = start
         var lo = start
         var hi = end - 1
@@ -238,13 +234,6 @@ class FixedAutoFitTextView @JvmOverloads constructor(context: Context, attrs: At
 
     override fun onSizeChanged(width: Int, height: Int, oldwidth: Int, oldheight: Int) {
         super.onSizeChanged(width, height, oldwidth, oldheight)
-        Log.d("state","w:$width,h:$height,$oldwidth,$oldheight")
-        /*
-        2021-10-11 08:52:07.710 2129-2129/bj.samples.base.proto D/state: w:1159,h:137,0,0
-2021-10-11 08:52:07.710 2129-2129/bj.samples.base.proto D/state: rect:RectF(0.0, 0.0, 1075.0, 126.0)
-2021-10-11 08:52:07.712 2129-2129/bj.samples.base.proto D/state: 1159
-2021-10-11 08:52:07.712 2129-2129/bj.samples.base.proto D/state: OUKcW1kpxOtR9ZhLwmn9tnhwakyNE+oSRJi5TPLBpc4=
-         */
         if (width != oldwidth || height != oldheight)
             adjustTextSize()
     }
